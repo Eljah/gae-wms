@@ -19,6 +19,8 @@ import java.util.Map;
  * the bounding boxes (in WGS84 lat-lon) of a tile pyramid.  We start with
  * two tiles representing the eastern and western hemisphere, then recursively
  * break these down into four square tiles.
+ *
+ * The downloadTile function can be used to download the images in the pyramid.
  * @author Jon
  */
 public final class TileBoundsGenerator {
@@ -57,7 +59,7 @@ public final class TileBoundsGenerator {
 
     /** The URL from which to download images, minus the BBOX value */
     private static final String DOWNLOAD_URL =
-            "http://0-2-1.latest.wms-basemaps.appspot.com/" +
+            "INSERT BASE URL" +
             "wms?" +
             "&LAYERS=bluemarble" +
             "&FORMAT=image%2Fjpeg" +
