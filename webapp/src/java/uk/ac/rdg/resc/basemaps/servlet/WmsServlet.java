@@ -96,39 +96,23 @@ public class WmsServlet extends HttpServlet {
 
         // Create an Image that wraps the files containing the image data
         log.fine("Creating mosaiced blue marble image");
-        //Image mosaicedBlueMarble = new ImageFileMosaic(new File("WEB-INF/images/bluemarble_5400x2700"),
-        //        5400, 2700);
 
         // Split this image up into <1MB chunks that can be memcached and stored
         // in the persistent store, then re-assemble as another Image.
-        CachingImageMosaic cachedMosaicedBlueMarble = new CachingImageMosaic(
+        /*CachingImageMosaic cachedMosaicedBlueMarble = new CachingImageMosaic(
             "bluemarble",
             5400,
             2700,
             this.tileStore
-        );
+        );*/
 
         FileBackedImageMosaic fileBackedBlueMarble = new FileBackedImageMosaic(
-            "bluemarble_file", 5400, 2700, new File("WEB-INF/images/bluemarble"));
-
-        // Close all the files associated with the file-backed image
-        //mosaicedBlueMarble.dispose();
+            "bluemarble", 5400, 2700, new File("WEB-INF/images/bluemarble"));
 
         // Wrap the image in a georeferencing wrapper and store in the Map
-        this.images.put("bluemarble",      new GeoreferencedImage(cachedMosaicedBlueMarble));
-        this.images.put("bluemarble_file", new GeoreferencedImage(fileBackedBlueMarble));
+        //this.images.put("bluemarble",      new GeoreferencedImage(cachedMosaicedBlueMarble));
+        this.images.put("bluemarble", new GeoreferencedImage(fileBackedBlueMarble));
     }
-
-    /*private void loadBitmap(String name) throws IOException, InvalidBitmapException {
-        InputStream in = null;
-        try {
-            in = new FileInputStream("WEB-INF/images/" + name + ".bmp");
-            // This image spans the whole world
-            this.images.put(name, new GeoreferencedImage(BMPLoader.readBMPImage(in)));
-        } finally {
-            if (in != null) in.close();
-        }
-    }*/
 
     /** Entry point for WMS requests */
     @Override

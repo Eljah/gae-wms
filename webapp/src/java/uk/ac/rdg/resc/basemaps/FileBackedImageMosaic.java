@@ -53,8 +53,7 @@ public class FileBackedImageMosaic extends ImageMosaic {
 
         // Create a unique key for this subimage.  This is the filename
         TileStore.Key key = new TileStore.Key(
-            // TODO: replace "bluemarble" with "this.id"
-            "bluemarble", this.getWidth(), this.getHeight(),
+            this.id, this.getWidth(), this.getHeight(),
             topLeftTileX, topLeftTileY,
             subImageWidth, subImageHeight
         );
