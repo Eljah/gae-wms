@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://kenai.com/projects/nbappengine/downloads/download/schema/appengine-web.xsd appengine-web.xsd">
-    <application></application>
-    <version>0-2-3</version>
+    <application>wms-basemaps</application>
+    <version>0-2-4</version>
     <admin-console>
-        <page name="Cache statistics" url="/admin/"/>
+        <page name="Cache statistics" url="/admin"/>
     </admin-console>
     <system-properties>
         <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
