@@ -82,7 +82,11 @@ public abstract class ImageMosaic extends AbstractImage {
             
             // Get and check the coordinates
             int[] coords = coordsList.get(i);
-            if (coords == null || coords.length != 2) {
+
+            // Skip any null coordinates (these represent out-of-range values)
+            if (coords == null) continue;
+
+            if (coords.length != 2) {
                 throw new IllegalArgumentException("Illegal coordinates");
             }
             

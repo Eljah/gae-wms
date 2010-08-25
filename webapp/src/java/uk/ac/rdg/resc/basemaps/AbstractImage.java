@@ -55,6 +55,8 @@ public abstract class AbstractImage implements Image {
         int[] pixels = new int[coordsList.size()];
         for (int i = 0; i < coordsList.size(); i++) {
             int[] coords = coordsList.get(i);
+            // Skip any out-of-range coordinates
+            if (coords == null) continue;
             if (coords.length != 2) {
                 throw new IllegalArgumentException("coords.length must be 2");
             }

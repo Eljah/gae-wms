@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
-import javax.cache.CacheException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,12 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 import uk.ac.rdg.resc.basemaps.cache.CacheKey;
 import uk.ac.rdg.resc.basemaps.GeoreferencedImage;
 import uk.ac.rdg.resc.basemaps.ArrayBackedImage;
-import uk.ac.rdg.resc.basemaps.CachingImageMosaic;
 import uk.ac.rdg.resc.basemaps.FileBackedImageMosaic;
 import uk.ac.rdg.resc.basemaps.Image;
 import uk.ac.rdg.resc.basemaps.Projection2;
 import uk.ac.rdg.resc.basemaps.cache.ImageCache;
-import uk.ac.rdg.resc.basemaps.persistent.TileStore;
 import uk.ac.rdg.resc.ncwms.controller.GetMapDataRequest;
 import uk.ac.rdg.resc.ncwms.controller.GetMapRequest;
 import uk.ac.rdg.resc.ncwms.controller.RequestParams;
@@ -59,10 +56,10 @@ public class WmsServlet extends HttpServlet {
     private final Map<String, GeoreferencedImage> images = new HashMap<String, GeoreferencedImage>();
 
     /** Cache of generated images.  */
-    private ImageCache imageCache;
+    private ImageCache imageCache = ImageCache.INSTANCE;
 
     /** Persistent store of source image tiles.  */
-    private final TileStore tileStore = TileStore.getInstance();
+    //private final TileStore tileStore = TileStore.getInstance();
 
     // We use this field to detect the first GetMap request of a new JVM instance
     private boolean firstTime = true;
@@ -80,12 +77,6 @@ public class WmsServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         log.info("Initializing WmsServlet");
-
-        try {
-            this.imageCache = new ImageCache();
-        } catch (CacheException ce) {
-            throw new ServletException(ce);
-        }
 
         // Populate the map of supported coordinate systems for images
         for (Projection2 proj : Projection2.values()) {
@@ -111,7 +102,7 @@ public class WmsServlet extends HttpServlet {
 
         // Wrap the image in a georeferencing wrapper and store in the Map
         //this.images.put("bluemarble",      new GeoreferencedImage(cachedMosaicedBlueMarble));
-        this.images.put("bluemarble", new GeoreferencedImage(fileBackedBlueMarble));
+        this.images.put("bluemarble_file", new GeoreferencedImage(fileBackedBlueMarble));
     }
 
     /** Entry point for WMS requests */

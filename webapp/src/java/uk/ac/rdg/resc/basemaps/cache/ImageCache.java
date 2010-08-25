@@ -6,6 +6,7 @@
 package uk.ac.rdg.resc.basemaps.cache;
 
 import java.util.Collections;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.cache.Cache;
 import javax.cache.CacheException;
@@ -21,9 +22,20 @@ public class ImageCache {
 
     private static final Logger log = Logger.getLogger(ImageCache.class.getName());
 
+    /** Singleton instance */
+    public static final ImageCache INSTANCE;
+
     private final Cache cache;
 
-    public ImageCache() throws CacheException {
+    static {
+        try {
+            INSTANCE = new ImageCache();
+        } catch (CacheException ce) {
+            throw new ExceptionInInitializerError(ce);
+        }
+    }
+
+    private ImageCache() throws CacheException {
         CacheFactory cacheFactory = CacheManager.getInstance().getCacheFactory();
         this.cache = cacheFactory.createCache(Collections.emptyMap());
     }
@@ -41,7 +53,7 @@ public class ImageCache {
             // During stress testing, we often see errors in the put request:
             // http://groups.google.co.uk/group/google-appengine-java/browse_thread/thread/7491cb06d6708150?hl=en
             // Until we have a better solution, we simply log the exception
-            log.warning("Error putting extracted image in memcache: " + e.toString());
+            log.log(Level.WARNING, "Error putting extracted image in memcache", e);
         }
     }
 
