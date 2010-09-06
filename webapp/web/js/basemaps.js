@@ -25,10 +25,16 @@ window.onload = function()
     var bluemarble = new OpenLayers.Layer.WMS("NASA Blue Marble",
         "wms", {layers: 'bluemarble_file', format: 'image/jpeg'}, {buffer : 1});
 
+    bluemarble.transitionEffect = "resize";
+
     map.addLayers([bluemarble]);
     map.addControl(new OpenLayers.Control.LayerSwitcher());
     map.addControl(new OpenLayers.Control.PanZoomBar());
     map.addControl(new OpenLayers.Control.MousePosition());
+
+    map.fractionalZoom = true;
+
+    var touchHandler = new TouchHandler(map, 4);
 
     map.zoomToMaxExtent();
 }
